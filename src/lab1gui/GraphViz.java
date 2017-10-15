@@ -1,4 +1,4 @@
-package lab1gui;
+B2 package lab1gui;
 //world
 // GraphViz.java - a simple API to call dot from Java programs
 /*$Id$*/

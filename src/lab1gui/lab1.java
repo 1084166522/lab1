@@ -1,4 +1,4 @@
-package lab1gui;
+B2 package lab1gui;
 //hello
 import java.io.BufferedReader;
 import java.io.File;
