@@ -1,5 +1,6 @@
 package lab1gui;
 //hello
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,83 +20,98 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class lab1 {
-	public static int[][] adj1;
-	public static String str1;
-	public static String[] vexs1;
-	public static String[] words1;
-	public static String[][] edges1;
-	public static String[][] edg1;
+  public static int[][] adj1;
+  public static String str1;
+  public static String[] vexs1;
+  public static String[] words1;
+  public static String[][] edges1;
+  public static String[][] edg1;
 
-	// 将单词数组转换为点组（删除重复元素）
-	public static String[] tranVexs(String[] words) {
-		String[] tmp = new String[words.length];
-		int j = 0;
-		for (int i = 0; i < words.length; i++) {
-			String word = words[i];
-			if (iscontain(tmp, word) == false) {
-				tmp[j] = word;
-				j++;
-			}
-		}
-		String[] vexs = new String[j];
-		for (int i = 0; i < j; i++) {
-			vexs[i] = tmp[i];
-		}
-		return vexs;
-	}
+  /**
 
-	public static boolean iscontain(String[] words, String word) {
-		return Arrays.asList(words).contains(word);
-	}// 判断数组是否包含某项
+  * 将单词数据转换为点组（删除重复元素）.（方法说明）
 
-	public static String[][] transMa(String str) {
-		String[] words = str.split("\\s+"); // 根据空格转化为数组words
+  * @param 单词words(参数名称)
 
-		int wordscount = words.length;// 13
-		String[][] edges = new String[wordscount - 1][2];
-		for (int i = 0; i < wordscount - 1; i++) {
-			edges[i][0] = words[i];
-			edges[i][1] = words[i + 1];
-		}
-		return edges;
-	}
+  * @return 装有点组的字符串数组(返回值说明)
 
-	// 删除重复边，计算边的权值。
-	public static String[][] edgweight(String[][] edges) {
-		String[] tmp = new String[edges.length];
-		for (int i = 0; i < edges.length; i++) {
-			tmp[i] = edges[i][0] + " " + edges[i][1];
-		}
-		String[] tmp1 = tranVexs(tmp);
-		int edgweight[] = weight(tmp, tmp1);
+  * @throws Exception if has error(异常说明)
 
-		String[][] tmp2 = new String[tmp1.length][edges[0].length + 1];
-		for (int i = 0; i < tmp1.length; i++) {
-			String[] mmp = tmp1[i].split(" ");
-			tmp2[i][0] = mmp[0];
-			tmp2[i][1] = mmp[1];
-			tmp2[i][2] = Integer.toString(edgweight[i]);
-		}
-		return tmp2;
-	}
+  */
+  public static String[] tranVexs(String[] words) {
+    String[] tmp = new String[words.length];
+    int j = 0;
+    for (int i = 0; i < words.length; i++) {
+      String word = words[i];
+      if (iscontain(tmp, word) == false) {
+        tmp[j] = word;
+        j++;
+      }
+    }
+    String[] vexs = new String[j];
+    for (int i = 0; i < j; i++) {
+      vexs[i] = tmp[i];
+    }
+    return vexs;
+  }
 
-	public static int[] weight(String[] strlist, String[] vlist) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		int[] vweight = new int[vlist.length];
-		for (String word : strlist) {
-			if (map.containsKey(word)) {// 如果map中已经包含该单词，则将其个数+1
-				int x = map.get(word);
-				x++;
-				map.put(word, x);
-			} else { // 如果map中没用包含该单词，代表该单词第一次出现，则将其放入map并将个数设置为1
-				map.put(word, 1);
-			}
-		}
-		for (int i = 0; i < vlist.length; i++) {
-			vweight[i] = map.get(vlist[i]);
-		}
-		return vweight;
-	}// 计算点的权值
+  public static boolean iscontain(String[] words, String word) {
+    return Arrays.asList(words).contains(word);
+  }
+  // 判断数组是否包含某项
+
+  public static String[][] transMa(String str) {
+    String[] words = str.split("\\s+"); // 根据空格转化为数组words
+
+    int wordscount = words.length;// 13
+    String[][] edges = new String[wordscount - 1][2];
+    for (int i = 0; i < wordscount - 1; i++) {
+      edges[i][0] = words[i];
+      edges[i][1] = words[i + 1];
+    }
+    return edges;
+  }
+
+  // 删除重复边，计算边的权值。
+  public static String[][] edgweight(String[][] edges) {
+    String[] tmp = new String[edges.length];
+    for (int i = 0; i < edges.length; i++) {
+      tmp[i] = edges[i][0] + " " + edges[i][1];
+    }
+    String[] tmp1 = tranVexs(tmp);
+    int edgweight[] = weight(tmp, tmp1);
+
+    String[][] tmp2 = new String[tmp1.length][edges[0].length + 1];
+    for (int i = 0; i < tmp1.length; i++) {
+      String[] mmp = tmp1[i].split(" ");
+      tmp2[i][0] = mmp[0];
+      tmp2[i][1] = mmp[1];
+      tmp2[i][2] = Integer.toString(edgweight[i]);
+    }
+    return tmp2;
+  }
+
+  public static int[] weight(String[] strlist, String[] vlist) {
+    Map<String, Integer> map = new HashMap<String, Integer>();
+    int[] vweight = new int[vlist.length];
+    for (String word : strlist) {
+      if (map.containsKey(word)) {
+        // 如果map中已经包含该单词，则将其个数+1
+        int x = map.get(word);
+        x++;
+        map.put(word, x);
+      }
+      else{ 
+        // 如果map中没用包含该单词，代表该单词第一次出现，则将其放入map并将个数设置为1
+        map.put(word, 1);
+      }
+    }
+    for (int i = 0; i < vlist.length; i++) {
+      vweight[i] = map.get(vlist[i]);
+    }
+    return vweight;
+  }
+  // 计算点的权值
 
 	// 根据始末查询桥接词
 	public static String queryBridgeWords(String before, String behind) {
@@ -226,6 +242,7 @@ public class lab1 {
 	// 根据邻接矩阵查询两次之间最短路径
 	public static String calcShortestPath(int point, int point2) {
 		int n = adj1.length;
+		int l = 0;
 		int i, j, k;
 		int[] path = new int[n];
 		int[] temp = new int[n];
@@ -253,6 +270,7 @@ public class lab1 {
 				}
 			}
 			temp[k] = 1; // 将顶点k选入
+			l = j;
 			for (j = 0; j < n; j++) { // 以顶点k为中间点，重新计算权值
 				if (temp[j] == 0 && adj1[k][j] != Integer.MAX_VALUE && weight[k] + adj1[k][j] < weight[j]) {
 					weight[j] = weight[k] + adj1[k][j];
@@ -282,6 +300,7 @@ public class lab1 {
 				j--;
 			}
 			tmp = tmp + str[0] + "!";
+			System.out.println("路径长度:"+ l);
 		}
 		return tmp;
 	}
@@ -289,6 +308,7 @@ public class lab1 {
 	// 根据邻接矩阵查询一个单词到其他所有单词之间的最短路径。
 	public static String calcShortestPath(int point) {
 		int n = adj1.length;
+		int l = 0;
 		int i, j, k;
 		int[] path = new int[n];
 		int[] temp = new int[n];
@@ -316,6 +336,7 @@ public class lab1 {
 				}
 			}
 			temp[k] = 1; // 将顶点k选入
+			l = j;
 			for (j = 0; j < n; j++) { // 以顶点k为中间点，重新计算权值
 				if (temp[j] == 0 && adj1[k][j] != Integer.MAX_VALUE && weight[k] + adj1[k][j] < weight[j]) {
 					weight[j] = weight[k] + adj1[k][j];
@@ -345,20 +366,23 @@ public class lab1 {
 					j--;
 				}
 				tmp = tmp + str[0] + "!\r\n";
+				System.out.println("路径长度:"+ l);
 			}
 		}
 		return tmp;
 	}
 
 	// 随机游走。
-	public static String randomWalk(int point) {
+	public static String randomWalk() {
 		int m = vexs1.length;
+		int ransp;
 		int[][] p = new int[m][m];
+		ransp = (int)(Math.random()*m);//产生随机节点
 		for (int i = 0; i < m; i++)
 			for (int j = 0; j < m; j++)
 				p[i][j] = -1;
 		String result = new String();
-		int a = point;
+		int a = ransp;
 		result += vexs1[a];
 
 		while (ran(a, m) != -1) {
@@ -389,7 +413,9 @@ public class lab1 {
 		else if (j == 1)
 			return l[0];
 		else
+		{
 			return -1;
+		}
 	}
 
 	public static void WriteFile(String filename, String filec) {
